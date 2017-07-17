@@ -180,7 +180,7 @@ y=((.61/(x-.47))+1.19)
 plt.plot(x,y,color=Low_Temp_Color)
 x3=np.linspace(-1.28,-0.2,50)
 y3=((.61/(x3-.05)+1.3))
-plt.plot(x3,y3,linestyle='--',color='red')
+plt.plot(x3,y3,linestyle='--',color='k')
 #counter=0
 
 

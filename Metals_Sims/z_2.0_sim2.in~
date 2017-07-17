@@ -1,0 +1,34 @@
+#
+# Incident Radiation Field
+# 
+#table AGN
+AGN T = 5.3,a(ox) = -1.42, a(uv) = -0.57, a(x) = -1.63
+#
+#init "honly.ini"
+#element oxygen on
+ionization parameter -2.0 vary
+grid range from -0.5 to -3.5 with -0.5 dex steps
+#
+hden 3.5 #vary #hydrogen density at 10^3 cm^-3
+#grid range from 1 to 4 with 0.5 dex steps
+#
+# Abundances
+#  
+abundances GASS10
+#
+cosmic ray background
+metals deplete
+metals and grains 1.7
+element helium scale 1.0329
+element nitrogen scale 1.7
+grains orion
+constant pressure
+# Boundary Condition
+#
+#stop zone 1
+stop temperature off
+stop efrac 0.01
+c produce the save output
+iterate to convergence
+save line list "z_1.7_den_3.5_sim.pun" "LineList_SJ_1" no hash last
+save grid "z_1.7_den_3.5_sim.grd"
