@@ -175,6 +175,7 @@ sp1.set_color_cycle(metal_colors)
 plt.plot(Cloudy_NII_Ha_transpose,Cloudy_OIII_Hb_transpose, lw = '2')
 '''
 plt.legend([plt.scatter([],[],color='0.75', s = markersize), plt.scatter([],[],color='0.5', s = markersize), plt.scatter([],[],color='0.25', s = markersize)], (r"T$_e$<1.17*10$^4$",r"1.17*10$^4$<T$_e$<1.54*10$^4$",r"T$_e$>1.54*10$^4$"),scatterpoints = 1, loc = 'lower left',fontsize =8)
+plt.legend([plt.scatter([],[],color='.75', s = markersize, marker = 'x', edgecolor = 'none'),plt.scatter([],[],color='0.75', s = markersize, marker = '+', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 'D', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 's', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = '*', edgecolor = 'none')], ("Star-Forming","Composite","AGN","LINER","Ambiguous"),scatterpoints = 1, loc = 'lower right',fontsize =8)
 x=np.linspace(-2.5,0.3,50)
 y=((.61/(x-.47))+1.19)
 plt.plot(x,y,color=Low_Temp_Color)
@@ -246,7 +247,7 @@ plt.plot(Cloudy_NII_Ha_transpose,Cloudy_NO_Ratio_transpose, lw = '2')
 #plt.legend([plt.scatter([],[],color=Low_Temp_Color, s = markersize), plt.scatter([],[],color=Mid_Temp_Color, s = markersize), plt.scatter([],[],color=High_Temp_Color, s = markersize),plt.scatter([],[],c=Cloudy_Sim_Color, s = markersize, edgecolor = 'none')], (r"$\frac{OIII[5007]}{OIII[4363]}$<50.0",r"$50.0<\frac{OIII[5007]}{OIII[4363]}<100.0$",r"$\frac{OIII[5007]}{OIII[4363]}$>100.0","Cloudy Simulation"),scatterpoints = 1, loc = 'lower left',fontsize =8)
 plt.show()
 plt.suptitle('2 < hden < 4, -0.5 < U < -3.5, Z = 1.2')
-#plt.savefig("Metallicity Sim Plots.pdf")
+plt.savefig("No_Sim_BPT_Plots.png", dpi = 800)
 
 
 
