@@ -1,4 +1,0 @@
-#Index	Failure?	Warnings?	Exit code	#rank	#seq	GRAIN ABU	grid parameter string
-000000000	F	F	                  ok	0	0	0.500000	0.500000
-000000001	F	F	                  ok	0	1	1.000000	1.000000
-000000002	F	F	                  ok	0	2	1.500000	1.500000
