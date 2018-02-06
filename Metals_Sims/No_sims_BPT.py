@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import urllib
-SDSS_File = '/Users/compastro/jenkins/emgtemp/data/SDSS_4363+5_z+0.04_dered_nospace.csv'
+SDSS_File = '/Users/Sam/Documents/emgtemp/data/SDSS_4363+5_z+0.04_dered_nospace.csv'
 SDSS_Data = np.genfromtxt(SDSS_File,skip_header=2, delimiter = ',',dtype=float,unpack=True)
 NII_6583 = SDSS_Data[28,:]
 Ha_6562 = SDSS_Data[27,:]
