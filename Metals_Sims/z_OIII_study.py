@@ -11,6 +11,7 @@ Hb_4861 = SDSS_Data['Flux_Hb_4861']
 OIII_4363 = Dered_Data['Flux_OIII_4363']
 z = SDSS_Data['z']
 Temp_Ratio = np.log10(OIII_5006/OIII_4363)
+Ha_Hb_linear = (Ha_6562/Hb_4861)
 Ha_Hb_Ratio = np.log10(Ha_6562/Hb_4861)
 zlog = np.log10(z)
 #####################################################################################################
@@ -46,7 +47,7 @@ sp3 = plt.subplot(223)
 for i in range(0,len(SDSS_Data['z'])):
     Temp_Color = getColor(OIII_5006[i], OIII_4363[i])
     #print(Temp_Color)
-    plt.scatter(z[i],Ha_Hb_Ratio[i], color = Temp_Color, edgecolor = 'none')
+    plt.scatter(z[i],Ha_Hb_linear[i], color = Temp_Color, edgecolor = 'none')
     #print (Temp_Color)    
 plt.xlabel('z')
 plt.ylabel(r"H$\alpha$/H$\beta$")
@@ -59,5 +60,4 @@ for i in range(0,len(SDSS_Data['z'])):
     #print (Temp_Color)  
 plt.xlabel('log z')
 plt.ylabel(r"H$\alpha$/H$\beta$")
-plt.show()
 plt.savefig("z_OIII_Ha_Study_plot.pdf")
