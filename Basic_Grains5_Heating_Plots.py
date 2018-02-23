@@ -3,12 +3,12 @@ import numpy as np
 import urllib
 import matplotlib.cm as cm
 import csv
-Overview_File = '/Users/Sam/Documents/emgtemp/Metals_Sims1/Basic_Grain5_Sim.ovr'
+Overview_File = '/Users/Sam/Documents/emgtemp/Studies/Basic_Grain5_Sim.ovr'
 Overview_Data = np.genfromtxt(Overview_File, skip_header = 0, delimiter = '\t',dtype=float,names=True)
-Heating_File = '/Users/Sam/Documents/emgtemp/Metals_Sims1/Basic_Grain5_Sim.het'
+Heating_File = '/Users/Sam/Documents/emgtemp/Studies/Basic_Grain5_Sim.het'
 Heating_Data_Floats = np.genfromtxt(Heating_File, skip_header = 0, delimiter = '\t',dtype=float,names=True)
 Heating_Data_Strings = np.genfromtxt(Heating_File, skip_header = 0, delimiter = '\t',dtype=None,names=True)
-heating_file = open('/Users/Sam/Documents/emgtemp/Metals_Sims1/Basic_Grain5_Sim.het')
+heating_file = open('/Users/Sam/Documents/emgtemp/Studies/Basic_Grain5_Sim.het')
 reader = csv.reader(heating_file)
 ##Heating_File = '/Users/compastro/jenkins/Metals_Sims/Baseline_Sim.het'
 ##Heating_Data = np.genfromtxt(Heating_File, skip_header = 0, delimiter = '\t',dtype=float,names=True)
@@ -127,3 +127,4 @@ plt.suptitle("Grains 5x")
 #if second_heating = "H  1":
 #plt.plot()
 plt.show()
+plt.savefig("Basic Grains Heating Study.pdf")

@@ -8,7 +8,7 @@ High_Temp_Color = 'r'
 #Temp_Color = 0.5
 Cloudy_Sim_Color = 'cyan'
 markersize = 40
-SDSS_File = '/Users/compastro/jenkins/SDSS_4363+5_z+0.04_dered_nospace.csv'
+SDSS_File = '/Users/Sam/Documents/emgtemp/data/SDSS_4363+5_z+0.04_dered_nospace.csv'
 SDSS_Data = np.genfromtxt(SDSS_File,skip_header=1, delimiter = ',',dtype=float,unpack=True,names=True)
 NII_6584 = SDSS_Data['Flux_NII_6583']
 Ha_6562 = SDSS_Data['Flux_Ha_6562']
@@ -27,7 +27,7 @@ NO_Ratio = np.log10(NII_6584/OII_3727)
 OI_Ratio = np.log10(OI_6300/Ha_6562)
 O_Ratio = np.log10(OIII_5006/OII_3727)
 S_Ha_Ratio = np.log10((SII_6716+SII_6731)/Ha_6562)
-Cloudy_File = '/Users/compastro/cloudy/c13.03/runs/Complete_Sim1.csv'
+Cloudy_File = '/Users/Sam/Documents/emgtemp/den_u_sims/z_1.2_U_-0.5_-3.5_hden_2_4/Complete_Sim1.csv'
 Cloudy_Data = np.genfromtxt(Cloudy_File, delimiter = ',',dtype=float,unpack=True,names=True)
 Cloudy_NII_6584 = Cloudy_Data['N__2__6584A']
 Cloudy_Ha_6562 = Cloudy_Data['H__1__6563A']
