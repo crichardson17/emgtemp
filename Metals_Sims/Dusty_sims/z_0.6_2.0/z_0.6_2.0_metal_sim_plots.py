@@ -8,7 +8,7 @@ High_Temp_Color = 'r'
 #Temp_Color = 0.5
 Cloudy_Sim_Color = 'cyan'
 markersize = 40
-SDSS_File = '/Users/compastro/jenkins/emgtemp/data/4363_gr_5_0_err_dered.csv'
+SDSS_File = '/Users/Sam/Documents/emgtemp/data/4363_gr_5_0_err_dered.csv'
 SDSS_Data = np.genfromtxt(SDSS_File,skip_header=1, delimiter = ',',dtype=float,unpack=True,names=True)
 NII_6584 = SDSS_Data['Flux_NII_6583']
 Ha_6562 = SDSS_Data['Flux_Ha_6562']
@@ -27,7 +27,7 @@ NO_Ratio = np.log10(NII_6584/OII_3727)
 OI_Ratio = np.log10(OI_6300/Ha_6562)
 O_Ratio = np.log10(OIII_5006/OII_3727)
 S_Ha_Ratio = np.log10((SII_6716+SII_6731)/Ha_6562)
-Cloudy_File = '/Users/compastro/jenkins/emgtemp/Metals_Sims/z_0.6_2.0_sims.pun'
+Cloudy_File = '/Users/Sam/Documents/emgtemp/Metals_Sims/Dusty_sims/z_0.6_2.0/z_0.6_2.0_sims.pun'
 Cloudy_Data = np.genfromtxt(Cloudy_File, delimiter = '\t',dtype=float,unpack=True,names=True)
 Cloudy_NII_6584 = Cloudy_Data['N__2__6584A']
 Cloudy_Ha_6562 = Cloudy_Data['H__1__6563A']
@@ -46,7 +46,7 @@ Cloudy_NO_Ratio = np.log10(Cloudy_NII_6584/Cloudy_OII_3727)
 Cloudy_OI_Ratio = np.log10(Cloudy_OI_6300/Cloudy_Ha_6562)
 Cloudy_O_Ratio = np.log10(Cloudy_OIII_5006/Cloudy_OII_3727)
 Cloudy_S_Ha_Ratio = np.log10((Cloudy_SII_6716+Cloudy_SII_6731)/Cloudy_Ha_6562)
-Grid_File = '/Users/compastro/jenkins/emgtemp/Metals_Sims/z_0.6_2.0_sims.grd'
+Grid_File = '/Users/Sam/Documents/emgtemp/Metals_Sims/Dusty_sims/z_0.6_2.0/z_0.6_2.0_sims.grd'
 Grid_Data = np.genfromtxt(Grid_File,skip_header=1,delimiter = '\t',dtype=float,unpack=True)
 Cloudy_Metals = Grid_Data[8,:]
 Cloudy_Den = Grid_Data[6,:]
@@ -237,8 +237,8 @@ sp4.set_color_cycle(metal_colors)
 plt.plot(Cloudy_NII_Ha_transpose,Cloudy_NO_Ratio_transpose)
 #plt.legend([plt.scatter([],[],color=Low_Temp_Color, s = markersize), plt.scatter([],[],color=Mid_Temp_Color, s = markersize), plt.scatter([],[],color=High_Temp_Color, s = markersize),plt.scatter([],[],c=Cloudy_Sim_Color, s = markersize, edgecolor = 'none')], (r"$\frac{OIII[5007]}{OIII[4363]}$<50.0",r"$50.0<\frac{OIII[5007]}{OIII[4363]}<100.0$",r"$\frac{OIII[5007]}{OIII[4363]}$>100.0","Cloudy Simulation"),scatterpoints = 1, loc = 'lower left',fontsize =8)
 plt.show()
-plt.suptitle('2 < hden < 4, -0.5 < U < -3.5, Z = 1.2')
-#plt.savefig("Metallicity Sim Plots.pdf")
+#plt.suptitle('2 < hden < 4, -0.5 < U < -3.5, Z = 1.2')
+plt.savefig("Z_0.6_2.0_Sims.pdf")
 
 
 
@@ -334,7 +334,6 @@ sp8.set_color_cycle(u_colors)
 plt.plot(Cloudy_S_Ha_Ratio_array,Cloudy_OIII_Hb_array,linestyle = '--', lw = '2')
 sp8.set_color_cycle(metal_colors)
 plt.plot(Cloudy_S_Ha_Ratio_transpose,Cloudy_OIII_Hb_transpose)
-plt.suptitle('2 < n$_e$ < 4, -0.5 < U < -3.5, Z = 1.2')
+#plt.suptitle('2 < n$_e$ < 4, -0.5 < U < -3.5, Z = 1.2')
 #plt.legend([plt.scatter([],[],color=Low_Temp_Color, s = markersize), plt.scatter([],[],color=Mid_Temp_Color, s = markersize), plt.scatter([],[],color=High_Temp_Color, s = markersize),plt.scatter([],[],c=Cloudy_Sim_Color, s = markersize, edgecolor = 'none')], (r"$\frac{OIII[5007]}{OIII[4363]}$<50.0",r"$50.0<\frac{OIII[5007]}{OIII[4363]}<100.0$",r"$\frac{OIII[5007]}{OIII[4363]}$>100.0","Cloudy Simulation"),scatterpoints = 1, loc = 'lower left',fontsize =8)
-#plt.savefig("Metallicity Sim Plots1.pdf")
 plt.show()

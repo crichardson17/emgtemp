@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import urllib
+import matplotlib.colors as colors
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import matplotlib.cm as cm
 Low_Temp_Color = 'k'
 Mid_Temp_Color = 'g'
@@ -71,6 +73,13 @@ Cloudy_S_Ha_Ratio_transpose = np.transpose(Cloudy_S_Ha_Ratio_array)
 #hot_data_colors = [plt.cm.Reds(i) for i in np.linspace(0,1,len(SDSS_Data['z']))]
 grains_colors = [plt.cm.Reds(i) for i in np.linspace(0.25,1,10)]
 z_colors = [plt.cm.Blues(i) for i in np.linspace(0.25,1,6)]
+def truncate_colormap(cmap, minval=0.15, maxval=1.0, n=100):
+  	new_cmap = colors.LinearSegmentedColormap.from_list(
+        'trunc({n},{a:.2f},{b:.2f})'.format(n=cmap.name, a=minval, b=maxval),
+        cmap(np.linspace(minval, maxval, n)))
+  	return new_cmap
+grains_colors_map = truncate_colormap(cm.Reds)
+z_colors_map = truncate_colormap(cm.Blues)
 
 #This is bad^ 3 and 7 are the number of densities and ionization parameters used, but ideally this wouldn't be hardcoded.
 
@@ -142,12 +151,26 @@ def getColor(OIII_5006, OIII_4363):
             print ("error")
         return Temp_Color
 #####################################################################################################
-
+agn_count = 0
+liner_count = 0
+sf_count = 0
+comp_count = 0
+amb_count = 0
 fig = plt.figure(131)
 fig.subplots_adjust(wspace=0.4,hspace=0.4)
 sp1 = plt.subplot(221)
 for i in range(0,len(SDSS_Data['z'])):
     shape = getShape(NII_Ha[i], OIII_Hb[i], S_Ha_Ratio[i], OI_Ratio[i])
+    if shape == 'D':
+        agn_count = agn_count +1
+    elif shape == 's':
+        liner_count = liner_count +1
+    elif shape == '+':
+        comp_count = comp_count +1
+    elif shape == 'x':
+        sf_count = sf_count+1
+    elif shape == '*':
+        amb_count = amb_count +1
     Temp_Color = getColor(OIII_5006[i], OIII_4363[i])
     #print(Temp_Color)
     plt.scatter(NII_Ha[i],OIII_Hb[i],s = markersize, marker = shape, color = Temp_Color, edgecolor = 'none')
@@ -181,6 +204,15 @@ y3=((.61/(x3-.05)+1.3))
 plt.plot(x3,y3,linestyle='--',color='k')
 #counter=0
 
+sm = plt.cm.ScalarMappable(norm=colors.Normalize(vmin=0.5, vmax=5.0),cmap=grains_colors_map)
+sm._A = []
+smaxes = inset_axes(sp1, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.14, 0.64), bbox_transform=sp1.figure.transFigure)
+#smaxes = inset_axes(sp1, width="3%", height="20%", loc=3, bbox_to_anchor=(0.1, 0.1), bbox_transform=ax.figure.transFigure)
+cbar = plt.colorbar(sm,cax=smaxes)
+cbar.ax.set_title('Grains',fontsize=8)
+cbar.set_ticks([0.5,5.0])
+cbar.set_ticklabels([0.5,5.0])
+cbar.ax.tick_params(labelsize=8) 
 
 
 sp2 = plt.subplot(222)
@@ -200,7 +232,14 @@ plt.plot(Cloudy_NII_Ha_array,Cloudy_Temp_Ratio_array, lw = '2')
 sp2.set_color_cycle(z_colors)
 plt.plot(Cloudy_NII_Ha_transpose,Cloudy_Temp_Ratio_transpose, lw = '2',linestyle = '--')
 plt.legend([plt.scatter([],[],color='.75', s = markersize, marker = 'x', edgecolor = 'none'),plt.scatter([],[],color='0.75', s = markersize, marker = '+', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 'D', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 's', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = '*', edgecolor = 'none')], ("Star-Forming","Composite","AGN","LINER","Ambiguous"),scatterpoints = 1, loc = 'lower left',fontsize =8)
-
+sm = plt.cm.ScalarMappable(norm=colors.Normalize(vmin=0.5, vmax=2.0),cmap=z_colors_map)
+sm._A = []
+smaxes = inset_axes(sp1, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.14, 0.64), bbox_transform=sp1.figure.transFigure)
+cbar = plt.colorbar(sm,cax=smaxes)
+cbar.ax.set_title('Z',fontsize=8)
+cbar.set_ticks([0.5,2.0])
+cbar.set_ticklabels([0.5,2.0])
+cbar.ax.tick_params(labelsize=8) 
 
 sp3 = plt.subplot(223)
 for i in range(0,len(SDSS_Data['z'])):
@@ -338,6 +377,9 @@ plt.suptitle('hden = 2.4, U = -1.5, 0.5 < Z < 2.0, 0.5 < grains < 5.0')
 #plt.legend([plt.scatter([],[],color=Low_Temp_Color, s = markersize), plt.scatter([],[],color=Mid_Temp_Color, s = markersize), plt.scatter([],[],color=High_Temp_Color, s = markersize),plt.scatter([],[],c=Cloudy_Sim_Color, s = markersize, edgecolor = 'none')], (r"$\frac{OIII[5007]}{OIII[4363]}$<50.0",r"$50.0<\frac{OIII[5007]}{OIII[4363]}<100.0$",r"$\frac{OIII[5007]}{OIII[4363]}$>100.0","Cloudy Simulation"),scatterpoints = 1, loc = 'lower left',fontsize =8)
 #plt.savefig("Metallicity Sim Plots1.pdf")
 plt.show()
-
-
+#print(agn_count)
+#print(liner_count)
+#print(comp_count)
+#print(sf_count)
+#print (amb_count)
 #Not sure why I'm only getting five metallicity lines. I should be getting six.
