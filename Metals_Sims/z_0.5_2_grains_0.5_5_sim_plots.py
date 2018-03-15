@@ -206,7 +206,7 @@ plt.plot(x3,y3,linestyle='--',color='k')
 
 sm = plt.cm.ScalarMappable(norm=colors.Normalize(vmin=0.5, vmax=5.0),cmap=grains_colors_map)
 sm._A = []
-smaxes = inset_axes(sp1, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.14, 0.64), bbox_transform=sp1.figure.transFigure)
+smaxes = inset_axes(sp1, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.14, 0.1), bbox_transform=sp1.figure.transFigure)
 #smaxes = inset_axes(sp1, width="3%", height="20%", loc=3, bbox_to_anchor=(0.1, 0.1), bbox_transform=ax.figure.transFigure)
 cbar = plt.colorbar(sm,cax=smaxes)
 cbar.ax.set_title('Grains',fontsize=8)
@@ -232,9 +232,10 @@ plt.plot(Cloudy_NII_Ha_array,Cloudy_Temp_Ratio_array, lw = '2')
 sp2.set_color_cycle(z_colors)
 plt.plot(Cloudy_NII_Ha_transpose,Cloudy_Temp_Ratio_transpose, lw = '2',linestyle = '--')
 plt.legend([plt.scatter([],[],color='.75', s = markersize, marker = 'x', edgecolor = 'none'),plt.scatter([],[],color='0.75', s = markersize, marker = '+', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 'D', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 's', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = '*', edgecolor = 'none')], ("Star-Forming","Composite","AGN","LINER","Ambiguous"),scatterpoints = 1, loc = 'lower left',fontsize =8)
+
 sm = plt.cm.ScalarMappable(norm=colors.Normalize(vmin=0.5, vmax=2.0),cmap=z_colors_map)
 sm._A = []
-smaxes = inset_axes(sp1, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.14, 0.64), bbox_transform=sp1.figure.transFigure)
+smaxes = inset_axes(sp2, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.6, .3), bbox_transform=sp2.figure.transFigure)
 cbar = plt.colorbar(sm,cax=smaxes)
 cbar.ax.set_title('Z',fontsize=8)
 cbar.set_ticks([0.5,2.0])

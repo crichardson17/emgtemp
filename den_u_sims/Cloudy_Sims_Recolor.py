@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.colors as colors
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import urllib
 import matplotlib.cm as cm
 Low_Temp_Color = 'k'
@@ -8,7 +10,7 @@ High_Temp_Color = 'r'
 #Temp_Color = 0.5
 Cloudy_Sim_Color = 'cyan'
 markersize = 40
-SDSS_File = '/Users/Sam/Documents/emgtemp/data/SDSS_4363+5_z+0.04_dered_nospace.csv'
+SDSS_File = '/Users/Sam/Documents/emgtemp/data/4363_gr_5_0_err_dered.csv'
 SDSS_Data = np.genfromtxt(SDSS_File,skip_header=1, delimiter = ',',dtype=float,unpack=True,names=True)
 NII_6584 = SDSS_Data['Flux_NII_6583']
 Ha_6562 = SDSS_Data['Flux_Ha_6562']
@@ -46,7 +48,7 @@ Cloudy_NO_Ratio = np.log10(Cloudy_NII_6584/Cloudy_OII_3727)
 Cloudy_OI_Ratio = np.log10(Cloudy_OI_6300/Cloudy_Ha_6562)
 Cloudy_O_Ratio = np.log10(Cloudy_OIII_5006/Cloudy_OII_3727)
 Cloudy_S_Ha_Ratio = np.log10((Cloudy_SII_6716+Cloudy_SII_6731)/Cloudy_Ha_6562)
-Grid_File = '/Users/compastro/cloudy/c13.03/runs/Complete_Sim1_Grid.csv'
+Grid_File = '/Users/Sam/Documents/emgtemp/den_u_sims/Complete_Sim1_Grid.csv'
 Grid_Data = np.genfromtxt(Grid_File,skip_header=1,delimiter = ',',dtype=float,unpack=True)
 Cloudy_U = Grid_Data[6,:]
 Cloudy_Den = Grid_Data[7,:]
@@ -71,6 +73,13 @@ Cloudy_S_Ha_Ratio_transpose = np.transpose(Cloudy_S_Ha_Ratio_array)
 #hot_data_colors = [plt.cm.Reds(i) for i in np.linspace(0,1,len(SDSS_Data['z']))]
 hden_colors = [plt.cm.GnBu(i) for i in np.linspace(0.25,1,3)]
 u_colors = [plt.cm.Reds(i) for i in np.linspace(0.25,1,7)]
+def truncate_colormap(cmap, minval=0.15, maxval=1.0, n=100):
+  	new_cmap = colors.LinearSegmentedColormap.from_list(
+        'trunc({n},{a:.2f},{b:.2f})'.format(n=cmap.name, a=minval, b=maxval),
+        cmap(np.linspace(minval, maxval, n)))
+  	return new_cmap
+hden_colors_map = truncate_colormap(cm.GnBu)
+u_colors_map = truncate_colormap(cm.Reds)
 
 #This is bad^ 3 and 7 are the number of densities and ionization parameters used, but ideally this wouldn't be hardcoded.
 
@@ -179,6 +188,15 @@ plt.plot(x,y,color=Low_Temp_Color)
 x3=np.linspace(-1,-0.2,50)
 y3=((.61/(x3-.05)+1.3))
 plt.plot(x3,y3,linestyle='--',color='red')
+
+sm = plt.cm.ScalarMappable(norm=colors.Normalize(vmin=0.5, vmax=2.0),cmap=u_colors_map)
+sm._A = []
+smaxes = inset_axes(sp1, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.14, .1), bbox_transform=sp1.figure.transFigure)
+cbar = plt.colorbar(sm,cax=smaxes)
+cbar.ax.set_title('Hden',fontsize=8)
+cbar.set_ticks([0.5,2.0])
+cbar.set_ticklabels([0.5,2.0])
+cbar.ax.tick_params(labelsize=8) 
 #counter=0
 
 
@@ -200,7 +218,14 @@ plt.plot(Cloudy_NII_Ha_array,Cloudy_Temp_Ratio_array,linestyle = '--', lw = '2')
 sp2.set_color_cycle(hden_colors)
 plt.plot(Cloudy_NII_Ha_transpose,Cloudy_Temp_Ratio_transpose)
 plt.legend([plt.scatter([],[],color='.75', s = markersize, marker = 'x', edgecolor = 'none'),plt.scatter([],[],color='0.75', s = markersize, marker = '+', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 'D', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 's', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = '*', edgecolor = 'none')], ("Star-Forming","Composite","AGN","LINER","Ambiguous"),scatterpoints = 1, loc = 'lower left',fontsize =8)
-
+sm = plt.cm.ScalarMappable(norm=colors.Normalize(vmin=0.5, vmax=2.0),cmap=hden_colors_map)
+sm._A = []
+smaxes = inset_axes(sp2, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.6, .3), bbox_transform=sp2.figure.transFigure)
+cbar = plt.colorbar(sm,cax=smaxes)
+cbar.ax.set_title('U',fontsize=8)
+cbar.set_ticks([0.5,2.0])
+cbar.set_ticklabels([0.5,2.0])
+cbar.ax.tick_params(labelsize=8) 
 
 sp3 = plt.subplot(223)
 for i in range(0,len(SDSS_Data['z'])):
