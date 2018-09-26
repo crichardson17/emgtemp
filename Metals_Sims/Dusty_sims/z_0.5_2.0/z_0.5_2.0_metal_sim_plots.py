@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.colors as colors
 import urllib
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import matplotlib.cm as cm
 Low_Temp_Color = 'k'
 Mid_Temp_Color = 'g'
@@ -69,9 +71,15 @@ Cloudy_S_Ha_Ratio_transpose = np.transpose(Cloudy_S_Ha_Ratio_array)
 #cold_data_colors = [plt.cm.Blues(i) for i in np.linspace(0,1,len(SDSS_Data['z']))]
 #mid_data_colors = [plt.cm.Greens(i) for i in np.linspace(0,1,len(SDSS_Data['z']))]
 #hot_data_colors = [plt.cm.Reds(i) for i in np.linspace(0,1,len(SDSS_Data['z']))]
-u_colors = [plt.cm.Reds(i) for i in np.linspace(0.25,1,7)]
+u_colors = [plt.cm.Purples(i) for i in np.linspace(0.5,1,7)]
 metal_colors = [plt.cm.Blues(i) for i in np.linspace(0.25,1,6)]
-
+def truncate_colormap(cmap, minval=0.15, maxval=1.0, n=100):
+  	new_cmap = colors.LinearSegmentedColormap.from_list(
+        'trunc({n},{a:.2f},{b:.2f})'.format(n=cmap.name, a=minval, b=maxval),
+        cmap(np.linspace(minval, maxval, n)))
+  	return new_cmap
+u_colors_map = truncate_colormap(cm.Purples)
+metal_colors_map = truncate_colormap(cm.Blues)
 #This is bad^ 3 and 7 are the number of densities and ionization parameters used, but ideally this wouldn't be hardcoded.
 
 #sf_count = 0.0
@@ -172,15 +180,24 @@ sp1.set_color_cycle(u_colors)
 plt.plot(Cloudy_NII_Ha_array,Cloudy_OIII_Hb_array,linestyle = '--', lw = '2')
 sp1.set_color_cycle(metal_colors)
 plt.plot(Cloudy_NII_Ha_transpose,Cloudy_OIII_Hb_transpose, lw = '2')
-plt.legend([plt.scatter([],[],color='0.75', s = markersize), plt.scatter([],[],color='0.5', s = markersize), plt.scatter([],[],color='0.25', s = markersize)], (r"T$_e$<1.17*10$^4$",r"1.17*10$^4$<T$_e$<1.54*10$^4$",r"T$_e$>1.54*10$^4$"),scatterpoints = 1, loc = 'lower left',fontsize =8)
 x=np.linspace(-1.5,0.3,50)
 y=((.61/(x-.47))+1.19)
 plt.plot(x,y,color=Low_Temp_Color)
 x3=np.linspace(-1,-0.2,50)
 y3=((.61/(x3-.05)+1.3))
 plt.plot(x3,y3,linestyle='--',color='k')
+plt.legend([plt.scatter([],[],color='.75', s = markersize, marker = 'x', edgecolor = 'none'),plt.scatter([],[],color='0.75', s = markersize, marker = '+', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 'D', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 's', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = '*', edgecolor = 'none')], ("Star-Forming","Composite","AGN","LINER","Ambiguous"),scatterpoints = 1, loc = 'lower left',fontsize =8)
 #counter=0
 
+sm = plt.cm.ScalarMappable(norm=colors.Normalize(vmin=0.5, vmax=2.0),cmap=metal_colors_map)
+sm._A = []
+smaxes = inset_axes(sp1, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.14, 0.1), bbox_transform=sp1.figure.transFigure)
+#smaxes = inset_axes(sp1, width="3%", height="20%", loc=3, bbox_to_anchor=(0.1, 0.1), bbox_transform=ax.figure.transFigure)
+cbar = plt.colorbar(sm,cax=smaxes)
+cbar.ax.set_title('Z',fontsize=8)
+cbar.set_ticks([0.5,2.0])
+cbar.set_ticklabels([0.5,2.0])
+cbar.ax.tick_params(labelsize=8) 
 
 
 sp2 = plt.subplot(222)
@@ -199,8 +216,16 @@ sp2.set_color_cycle(u_colors)
 plt.plot(Cloudy_NII_Ha_array,Cloudy_Temp_Ratio_array,linestyle = '--', lw = '2')
 sp2.set_color_cycle(metal_colors)
 plt.plot(Cloudy_NII_Ha_transpose,Cloudy_Temp_Ratio_transpose, lw = '2')
-plt.legend([plt.scatter([],[],color='.75', s = markersize, marker = 'x', edgecolor = 'none'),plt.scatter([],[],color='0.75', s = markersize, marker = '+', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 'D', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 's', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = '*', edgecolor = 'none')], ("Star-Forming","Composite","AGN","LINER","Ambiguous"),scatterpoints = 1, loc = 'lower left',fontsize =8)
+plt.legend([plt.scatter([],[],color='0.75', s = markersize), plt.scatter([],[],color='0.5', s = markersize), plt.scatter([],[],color='0.25', s = markersize)], (r"T$_e$<1.17*10$^4$",r"1.17*10$^4$<T$_e$<1.54*10$^4$",r"T$_e$>1.54*10$^4$"),scatterpoints = 1, loc = 'lower left',fontsize =8)
 
+sm = plt.cm.ScalarMappable(norm=colors.Normalize(vmin=-3.5, vmax=-0.5),cmap=u_colors_map)
+sm._A = []
+smaxes = inset_axes(sp2, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.3, .1), bbox_transform=sp2.figure.transFigure)
+cbar = plt.colorbar(sm,cax=smaxes)
+cbar.ax.set_title('U',fontsize=8)
+cbar.set_ticks([-3.5,-0.5])
+cbar.set_ticklabels([-3.5,-0.5])
+cbar.ax.tick_params(labelsize=8) 
 
 sp3 = plt.subplot(223)
 for i in range(0,len(SDSS_Data['z'])):
@@ -236,10 +261,9 @@ plt.plot(Cloudy_NII_Ha_array,Cloudy_NO_Ratio_array,linestyle = '--', lw = '2')
 sp4.set_color_cycle(metal_colors)
 plt.plot(Cloudy_NII_Ha_transpose,Cloudy_NO_Ratio_transpose, lw = '2')
 #plt.legend([plt.scatter([],[],color=Low_Temp_Color, s = markersize), plt.scatter([],[],color=Mid_Temp_Color, s = markersize), plt.scatter([],[],color=High_Temp_Color, s = markersize),plt.scatter([],[],c=Cloudy_Sim_Color, s = markersize, edgecolor = 'none')], (r"$\frac{OIII[5007]}{OIII[4363]}$<50.0",r"$50.0<\frac{OIII[5007]}{OIII[4363]}<100.0$",r"$\frac{OIII[5007]}{OIII[4363]}$>100.0","Cloudy Simulation"),scatterpoints = 1, loc = 'lower left',fontsize =8)
-plt.show()
 plt.suptitle('n$_H$ = 3.5, -0.5 < U < -3.5, 0.5 < Z < 2.0')
-plt.savefig("Z_0.5_2.0_Sims_Plots.pdf", dpi = 600)
-
+plt.savefig("Z_0.5_2.0_Sims_Plots.pdf")
+plt.show()
 
 
 
@@ -337,4 +361,4 @@ plt.plot(Cloudy_S_Ha_Ratio_transpose,Cloudy_OIII_Hb_transpose, lw = '2')
 plt.suptitle('n$_H$ = 3.5, -0.5 < U < -3.5, 0.5 < Z < 2.0')
 #plt.legend([plt.scatter([],[],color=Low_Temp_Color, s = markersize), plt.scatter([],[],color=Mid_Temp_Color, s = markersize), plt.scatter([],[],color=High_Temp_Color, s = markersize),plt.scatter([],[],c=Cloudy_Sim_Color, s = markersize, edgecolor = 'none')], (r"$\frac{OIII[5007]}{OIII[4363]}$<50.0",r"$50.0<\frac{OIII[5007]}{OIII[4363]}<100.0$",r"$\frac{OIII[5007]}{OIII[4363]}$>100.0","Cloudy Simulation"),scatterpoints = 1, loc = 'lower left',fontsize =8)
 #plt.savefig("Metallicity Sim Plots1.pdf")
-plt.show()
+#plt.show()

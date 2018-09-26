@@ -29,8 +29,8 @@ NO_Ratio = np.log10(NII_6584/OII_3727)
 OI_Ratio = np.log10(OI_6300/Ha_6562)
 O_Ratio = np.log10(OIII_5006/OII_3727)
 S_Ha_Ratio = np.log10((SII_6716+SII_6731)/Ha_6562)
-Cloudy_File = '/Users/Sam/Documents/emgtemp/den_u_sims/z_1.2_U_-0.5_-3.5_hden_2_4/Complete_Sim1.csv'
-Cloudy_Data = np.genfromtxt(Cloudy_File, delimiter = ',',dtype=float,unpack=True,names=True)
+Cloudy_File = '/Users/Sam/Documents/emgtemp/den_u_sims/Complete_Sim3.csv'
+Cloudy_Data = np.genfromtxt(Cloudy_File,delimiter = ',',dtype=float,unpack=True,names=True)
 Cloudy_NII_6584 = Cloudy_Data['N__2__6584A']
 Cloudy_Ha_6562 = Cloudy_Data['H__1__6563A']
 Cloudy_OIII_5006 = Cloudy_Data['O__3__5007A']
@@ -48,9 +48,10 @@ Cloudy_NO_Ratio = np.log10(Cloudy_NII_6584/Cloudy_OII_3727)
 Cloudy_OI_Ratio = np.log10(Cloudy_OI_6300/Cloudy_Ha_6562)
 Cloudy_O_Ratio = np.log10(Cloudy_OIII_5006/Cloudy_OII_3727)
 Cloudy_S_Ha_Ratio = np.log10((Cloudy_SII_6716+Cloudy_SII_6731)/Cloudy_Ha_6562)
-Grid_File = '/Users/Sam/Documents/emgtemp/den_u_sims/Complete_Sim1_Grid.csv'
-Grid_Data = np.genfromtxt(Grid_File,skip_header=1,delimiter = ',',dtype=float,unpack=True)
-Cloudy_U = Grid_Data[6,:]
+Grid_File = '/Users/Sam/Documents/emgtemp/den_u_sims/Complete_Sim3.grd'
+Grid_Data = np.genfromtxt(Grid_File,skip_header=1,delimiter = '\t',dtype=float,unpack=True)
+#print (Grid_Data[:,2])
+Cloudy_U = Grid_Data[7,:]
 Cloudy_Den = Grid_Data[7,:]
 Cloudy_NII_Ha_array = np.reshape(Cloudy_NII_Ha,(7,-1))
 Cloudy_OI_Ratio_array = np.reshape(Cloudy_OI_Ratio,(7,-1))
@@ -71,9 +72,9 @@ Cloudy_S_Ha_Ratio_transpose = np.transpose(Cloudy_S_Ha_Ratio_array)
 #cold_data_colors = [plt.cm.Blues(i) for i in np.linspace(0,1,len(SDSS_Data['z']))]
 #mid_data_colors = [plt.cm.Greens(i) for i in np.linspace(0,1,len(SDSS_Data['z']))]
 #hot_data_colors = [plt.cm.Reds(i) for i in np.linspace(0,1,len(SDSS_Data['z']))]
-hden_colors = [plt.cm.GnBu(i) for i in np.linspace(0.25,1,3)]
-u_colors = [plt.cm.Reds(i) for i in np.linspace(0.25,1,7)]
-def truncate_colormap(cmap, minval=0.15, maxval=1.0, n=100):
+u_colors = [plt.cm.GnBu(i) for i in np.linspace(0.25,1,7)]
+hden_colors = [plt.cm.Reds(i) for i in np.linspace(0.25,1,7)]
+def truncate_colormap(cmap, minval=0.25, maxval=1.0, n=100):
   	new_cmap = colors.LinearSegmentedColormap.from_list(
         'trunc({n},{a:.2f},{b:.2f})'.format(n=cmap.name, a=minval, b=maxval),
         cmap(np.linspace(minval, maxval, n)))
@@ -189,13 +190,13 @@ x3=np.linspace(-1,-0.2,50)
 y3=((.61/(x3-.05)+1.3))
 plt.plot(x3,y3,linestyle='--',color='red')
 
-sm = plt.cm.ScalarMappable(norm=colors.Normalize(vmin=0.5, vmax=2.0),cmap=u_colors_map)
+sm = plt.cm.ScalarMappable(norm=colors.Normalize(vmin=0.25, vmax=7.0),cmap=u_colors_map)
 sm._A = []
 smaxes = inset_axes(sp1, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.14, .1), bbox_transform=sp1.figure.transFigure)
 cbar = plt.colorbar(sm,cax=smaxes)
 cbar.ax.set_title('Hden',fontsize=8)
-cbar.set_ticks([0.5,2.0])
-cbar.set_ticklabels([0.5,2.0])
+cbar.set_ticks([0.25,7.0])
+cbar.set_ticklabels([0.25,7.0])
 cbar.ax.tick_params(labelsize=8) 
 #counter=0
 
@@ -218,13 +219,13 @@ plt.plot(Cloudy_NII_Ha_array,Cloudy_Temp_Ratio_array,linestyle = '--', lw = '2')
 sp2.set_color_cycle(hden_colors)
 plt.plot(Cloudy_NII_Ha_transpose,Cloudy_Temp_Ratio_transpose)
 plt.legend([plt.scatter([],[],color='.75', s = markersize, marker = 'x', edgecolor = 'none'),plt.scatter([],[],color='0.75', s = markersize, marker = '+', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 'D', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 's', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = '*', edgecolor = 'none')], ("Star-Forming","Composite","AGN","LINER","Ambiguous"),scatterpoints = 1, loc = 'lower left',fontsize =8)
-sm = plt.cm.ScalarMappable(norm=colors.Normalize(vmin=0.5, vmax=2.0),cmap=hden_colors_map)
+sm = plt.cm.ScalarMappable(norm=colors.Normalize(vmin=0.25, vmax=3.0),cmap=hden_colors_map)
 sm._A = []
 smaxes = inset_axes(sp2, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.6, .3), bbox_transform=sp2.figure.transFigure)
 cbar = plt.colorbar(sm,cax=smaxes)
 cbar.ax.set_title('U',fontsize=8)
-cbar.set_ticks([0.5,2.0])
-cbar.set_ticklabels([0.5,2.0])
+cbar.set_ticks([0.25,3.0])
+cbar.set_ticklabels([0.25,3.0])
 cbar.ax.tick_params(labelsize=8) 
 
 sp3 = plt.subplot(223)
@@ -263,7 +264,7 @@ plt.plot(Cloudy_NII_Ha_transpose,Cloudy_NO_Ratio_transpose)
 #plt.legend([plt.scatter([],[],color=Low_Temp_Color, s = markersize), plt.scatter([],[],color=Mid_Temp_Color, s = markersize), plt.scatter([],[],color=High_Temp_Color, s = markersize),plt.scatter([],[],c=Cloudy_Sim_Color, s = markersize, edgecolor = 'none')], (r"$\frac{OIII[5007]}{OIII[4363]}$<50.0",r"$50.0<\frac{OIII[5007]}{OIII[4363]}<100.0$",r"$\frac{OIII[5007]}{OIII[4363]}$>100.0","Cloudy Simulation"),scatterpoints = 1, loc = 'lower left',fontsize =8)
 plt.show()
 plt.suptitle('2 < hden < 4, -0.5 < U < -3.5, Z = 1.2, T = 5.3, a(ox) = -1.42, a(uv) = -0.57, a(x) = -1.63')
-plt.savefig("First Complete Sim Plots.pdf")
+plt.savefig("den_u_sim_plots.pdf")
 
 
 
@@ -361,5 +362,5 @@ sp8.set_color_cycle(hden_colors)
 plt.plot(Cloudy_S_Ha_Ratio_transpose,Cloudy_OIII_Hb_transpose)
 plt.suptitle('2 < hden < 4, -0.5 < U < -3.5, Z = 1.2, T = 5.3, a(ox) = -1.42, a(uv) = -0.57, a(x) = -1.63')
 #plt.legend([plt.scatter([],[],color=Low_Temp_Color, s = markersize), plt.scatter([],[],color=Mid_Temp_Color, s = markersize), plt.scatter([],[],color=High_Temp_Color, s = markersize),plt.scatter([],[],c=Cloudy_Sim_Color, s = markersize, edgecolor = 'none')], (r"$\frac{OIII[5007]}{OIII[4363]}$<50.0",r"$50.0<\frac{OIII[5007]}{OIII[4363]}<100.0$",r"$\frac{OIII[5007]}{OIII[4363]}$>100.0","Cloudy Simulation"),scatterpoints = 1, loc = 'lower left',fontsize =8)
-plt.savefig("First Complete Sim Plots1.pdf")
+plt.savefig("den_u_sim_plots2.pdf")
 plt.show()
