@@ -176,11 +176,11 @@ for i in range(0,len(SDSS_Data['z'])):
     plt.scatter(NII_Ha[i],OIII_Hb[i],s = markersize, marker = shape, color = Temp_Color, edgecolor = 'none')
     #print (Temp_Color)    
 
-#print(sf_count)
-#print(comp_count)
-#print(agn_count)
-#print(liner_count)
-#print(amb_count)
+print(sf_count)
+print(comp_count)
+print(agn_count)
+print(liner_count)
+print(amb_count)
 #print(red)
 #print(green)
 #print(black)
@@ -196,6 +196,7 @@ plt.plot(x,y,color=Low_Temp_Color)
 x3=np.linspace(-1,-0.2,50)
 y3=((.61/(x3-.05)+1.3))
 plt.plot(x3,y3,linestyle='--',color='k')
+plt.legend([plt.scatter([],[],color='.75', s = markersize, marker = 'x', edgecolor = 'none'),plt.scatter([],[],color='0.75', s = markersize, marker = '+', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 'D', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 's', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = '*', edgecolor = 'none')], ("Star-Forming","Composite","AGN","LINER","Ambiguous"),scatterpoints = 1, loc = 'lower left',fontsize =8)
 #counter=0
 
 
@@ -210,7 +211,8 @@ plt.xlabel(r"log ([NII] $\lambda$6584/H$\alpha$)")
 plt.title("Temperature")
 plt.ylim(0,3)
 plt.xlim(-2.5,0.5)
-plt.legend([plt.scatter([],[],color='.75', s = markersize, marker = 'x', edgecolor = 'none'),plt.scatter([],[],color='0.75', s = markersize, marker = '+', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 'D', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 's', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = '*', edgecolor = 'none')], ("Star-Forming","Composite","AGN","LINER","Ambiguous"),scatterpoints = 1, loc = 'lower left',fontsize =8)
+plt.legend([plt.scatter([],[],color='0.75', s = markersize), plt.scatter([],[],color='0.5', s = markersize), plt.scatter([],[],color='0.25', s = markersize)], (r"T$_e$<1.17*10$^4$",r"1.17*10$^4$<T$_e$<1.54*10$^4$",r"T$_e$>1.54*10$^4$"),scatterpoints = 1, loc = 'lower left',fontsize =8)
+
 
 
 sp3 = plt.subplot(223)
@@ -237,7 +239,7 @@ plt.title("Metallicity")
 plt.xlim(-2.5,0.5)
 plt.show()
 #plt.suptitle('hden = 2.4, U = -1.5, 0.5 < Z < 2.0, 0.5 < grains < 5.0')
-plt.savefig("No_Sims_Grey_Temp.pdf")
+plt.savefig("No_Sims_Grey_Temp.pdf", dpi = 600)
 
 
 
