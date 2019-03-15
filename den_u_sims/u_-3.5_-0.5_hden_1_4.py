@@ -264,7 +264,7 @@ plt.plot(Cloudy_NII_Ha_transpose,Cloudy_NO_Ratio_transpose)
 #plt.legend([plt.scatter([],[],color=Low_Temp_Color, s = markersize), plt.scatter([],[],color=Mid_Temp_Color, s = markersize), plt.scatter([],[],color=High_Temp_Color, s = markersize),plt.scatter([],[],c=Cloudy_Sim_Color, s = markersize, edgecolor = 'none')], (r"$\frac{OIII[5007]}{OIII[4363]}$<50.0",r"$50.0<\frac{OIII[5007]}{OIII[4363]}<100.0$",r"$\frac{OIII[5007]}{OIII[4363]}$>100.0","Cloudy Simulation"),scatterpoints = 1, loc = 'lower left',fontsize =8)
 plt.show()
 #plt.suptitle('2 < hden < 4, -0.5 < U < -3.5, Z = 1.2, T = 5.3, a(ox) = -1.42, a(uv) = -0.57, a(x) = -1.63')
-plt.savefig("den_u_sim_plots.pdf")
+plt.savefig("den_u_sim_plots.pdf", dpi = 600)
 
 
 

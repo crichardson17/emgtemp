@@ -262,7 +262,7 @@ sp4.set_color_cycle(metal_colors)
 plt.plot(Cloudy_NII_Ha_transpose,Cloudy_NO_Ratio_transpose, lw = '2')
 #plt.legend([plt.scatter([],[],color=Low_Temp_Color, s = markersize), plt.scatter([],[],color=Mid_Temp_Color, s = markersize), plt.scatter([],[],color=High_Temp_Color, s = markersize),plt.scatter([],[],c=Cloudy_Sim_Color, s = markersize, edgecolor = 'none')], (r"$\frac{OIII[5007]}{OIII[4363]}$<50.0",r"$50.0<\frac{OIII[5007]}{OIII[4363]}<100.0$",r"$\frac{OIII[5007]}{OIII[4363]}$>100.0","Cloudy Simulation"),scatterpoints = 1, loc = 'lower left',fontsize =8)
 plt.suptitle('n$_H$ = 3.5, -0.5 < U < -3.5, 0.5 < Z < 2.0')
-plt.savefig("Z_0.5_2.0_Sims_Plots.pdf")
+plt.savefig("Z_0.5_2.0_Sims_Plots.pdf", dpi = 600)
 plt.show()
 
 
