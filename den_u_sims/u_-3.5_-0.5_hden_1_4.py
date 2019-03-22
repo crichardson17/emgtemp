@@ -72,15 +72,15 @@ Cloudy_S_Ha_Ratio_transpose = np.transpose(Cloudy_S_Ha_Ratio_array)
 #cold_data_colors = [plt.cm.Blues(i) for i in np.linspace(0,1,len(SDSS_Data['z']))]
 #mid_data_colors = [plt.cm.Greens(i) for i in np.linspace(0,1,len(SDSS_Data['z']))]
 #hot_data_colors = [plt.cm.Reds(i) for i in np.linspace(0,1,len(SDSS_Data['z']))]
-hden_colors = [plt.cm.Purples(i) for i in np.linspace(0.25,1,7)]
 u_colors = [plt.cm.copper(i) for i in np.linspace(0.25,1,7)]
+hden_colors = [plt.cm.Purples(i) for i in np.linspace(0.25,1,7)]
 def truncate_colormap(cmap, minval=0.25, maxval=1.0, n=100):
   	new_cmap = colors.LinearSegmentedColormap.from_list(
         'trunc({n},{a:.2f},{b:.2f})'.format(n=cmap.name, a=minval, b=maxval),
         cmap(np.linspace(minval, maxval, n)))
   	return new_cmap
-hden_colors_map = truncate_colormap(cm.Purples)
 u_colors_map = truncate_colormap(cm.copper)
+hden_colors_map = truncate_colormap(cm.Purples)
 
 #This is bad^ 3 and 7 are the number of densities and ionization parameters used, but ideally this wouldn't be hardcoded.
 
@@ -192,7 +192,7 @@ plt.plot(x3,y3,linestyle='--',color='k')
 
 sm = plt.cm.ScalarMappable(norm=colors.Normalize(vmin=1, vmax=4),cmap=u_colors_map)
 sm._A = []
-smaxes = inset_axes(sp1, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.131, .1), bbox_transform=sp1.figure.transFigure)
+smaxes = inset_axes(sp1, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.3, .2), bbox_transform=sp1.figure.transFigure)
 cbar = plt.colorbar(sm,cax=smaxes)
 cbar.ax.set_title('Hden',fontsize=8)
 cbar.set_ticks([1,4])
@@ -221,7 +221,7 @@ plt.legend([plt.scatter([],[],color='0.75', s = markersize), plt.scatter([],[],c
 plt.plot(Cloudy_NII_Ha_transpose,Cloudy_Temp_Ratio_transpose)
 sm = plt.cm.ScalarMappable(norm=colors.Normalize(vmin=-3.5, vmax=-0.5),cmap=hden_colors_map)
 sm._A = []
-smaxes = inset_axes(sp2, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.6, .3), bbox_transform=sp2.figure.transFigure)
+smaxes = inset_axes(sp2, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.2, .3), bbox_transform=sp2.figure.transFigure)
 cbar = plt.colorbar(sm,cax=smaxes)
 cbar.ax.set_title('U',fontsize=8)
 cbar.set_ticks([-3.5,-0.5])
