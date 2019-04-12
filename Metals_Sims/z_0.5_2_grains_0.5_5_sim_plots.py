@@ -9,7 +9,7 @@ Mid_Temp_Color = 'g'
 High_Temp_Color = 'r'
 #Temp_Color = 0.5
 Cloudy_Sim_Color = 'cyan'
-markersize = 40
+markersize = 20
 SDSS_File = '/Users/Sam/Documents/emgtemp/data/4363_gr_5_0_err_dered.csv'
 SDSS_Data = np.genfromtxt(SDSS_File,skip_header=1, delimiter = ',',dtype=float,unpack=True,names=True)
 NII_6584 = SDSS_Data['Flux_NII_6583']
@@ -157,8 +157,8 @@ sf_count = 0
 comp_count = 0
 amb_count = 0
 fig = plt.figure(131)
-fig.subplots_adjust(wspace=0.4,hspace=0.4)
-sp1 = plt.subplot(221)
+fig.subplots_adjust(wspace=0.8,hspace=0.6)
+sp1 = plt.subplot(231)
 for i in range(0,len(SDSS_Data['z'])):
     shape = getShape(NII_Ha[i], OIII_Hb[i], S_Ha_Ratio[i], OI_Ratio[i])
     if shape == 'D':
@@ -185,8 +185,8 @@ for i in range(0,len(SDSS_Data['z'])):
 #print(green)
 #print(black)
 #print(counter)
-plt.xlim(-2.5,0.5)
-plt.ylim(-1,1.3)
+plt.xlim(-1.5,0.5)
+plt.ylim(0.5,1.3)
 plt.ylabel(r"log([OIII] $\lambda$5007/H$\beta$)")
 plt.xlabel(r"log ([NII] $\lambda$6584/H$\alpha$)")
 plt.title("BPT Diagram")
@@ -195,7 +195,9 @@ sp1.set_color_cycle(grains_colors)
 plt.plot(Cloudy_NII_Ha_array,Cloudy_OIII_Hb_array, lw = '2')
 sp1.set_color_cycle(z_colors)
 plt.plot(Cloudy_NII_Ha_transpose,Cloudy_OIII_Hb_transpose, lw = '2',linestyle = '--')
-plt.legend([plt.scatter([],[],color='.75', s = markersize, marker = 'x', edgecolor = 'none'),plt.scatter([],[],color='0.75', s = markersize, marker = '+', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 'D', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 's', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = '*', edgecolor = 'none')], ("Star-Forming","Composite","AGN","LINER","Ambiguous"),scatterpoints = 1, loc = 'lower left',fontsize =8)
+#plt.legend([plt.scatter([],[],color='.75', s = markersize, marker = 'x', edgecolor = 'none'),plt.scatter([],[],color='0.75', s = markersize, marker = '+', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 'D', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 's', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = '*', edgecolor = 'none')], ("Star-Forming","Composite","AGN","LINER","Ambiguous"),scatterpoints = 1, loc = 'lower left',fontsize =8)
+plt.legend([plt.scatter([],[],color='.75', s = markersize, marker = 'x', edgecolor = 'none'),plt.scatter([],[],color='0.75', s = markersize, marker = '+', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 'D', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = 's', edgecolor = 'none'), plt.scatter([],[],color='.75', s = markersize, marker = '*', edgecolor = 'none')], ("SF","Comp","AGN","LINER","Amb"),scatterpoints = 1, loc = 'lower left',fontsize =8)
+
 x=np.linspace(-1.5,0.3,50)
 y=((.61/(x-.47))+1.19)
 plt.plot(x,y,color=Low_Temp_Color)
@@ -215,7 +217,7 @@ cbar.set_ticklabels([0.5,5.0])
 cbar.ax.tick_params(labelsize=8) 
 
 
-sp2 = plt.subplot(222)
+sp2 = plt.subplot(232)
 for i in range(0,len(SDSS_Data['z'])):
     shape = getShape(NII_Ha[i], OIII_Hb[i], S_Ha_Ratio[i], OI_Ratio[i])
     Temp_Color = getColor(OIII_5006[i], OIII_4363[i])
@@ -224,25 +226,26 @@ for i in range(0,len(SDSS_Data['z'])):
 plt.ylabel(r"log([OIII] $\lambda$5007/4363)")
 plt.xlabel(r"log ([NII] $\lambda$6584/H$\alpha$)")
 plt.title("Temperature")
-plt.ylim(0,3)
-plt.xlim(-2.5,0.5)
+plt.ylim(1,2.5)
+plt.xlim(-1.5,0.2)
 #plt.scatter(Cloudy_NII_Ha,Cloudy_Temp_Ratio,c=Cloudy_Sim_Color, s = markersize, edgecolor ='none')
 sp2.set_color_cycle(grains_colors)
 plt.plot(Cloudy_NII_Ha_array,Cloudy_Temp_Ratio_array, lw = '2')
 sp2.set_color_cycle(z_colors)
 plt.plot(Cloudy_NII_Ha_transpose,Cloudy_Temp_Ratio_transpose, lw = '2',linestyle = '--')
-plt.legend([plt.scatter([],[],color='0.75', s = markersize), plt.scatter([],[],color='0.5', s = markersize), plt.scatter([],[],color='0.25', s = markersize)], (r"T$_e$<1.17*10$^4$",r"1.17*10$^4$<T$_e$<1.54*10$^4$",r"T$_e$>1.54*10$^4$"),scatterpoints = 1, loc = 'lower left',fontsize =8)
+#plt.legend([plt.scatter([],[],color='0.75', s = markersize), plt.scatter([],[],color='0.5', s = markersize), plt.scatter([],[],color='0.25', s = markersize)], (r"T$_e$<1.17*10$^4$",r"1.17*10$^4$<T$_e$<1.54*10$^4$",r"T$_e$>1.54*10$^4$"),scatterpoints = 1, loc = 'lower left',fontsize =8)
+plt.legend([plt.scatter([],[],color='0.75', s = markersize), plt.scatter([],[],color='0.5', s = markersize), plt.scatter([],[],color='0.25', s = markersize)], (r"Low T$_e$",r"Mid T$_e$",r"High T$_e$"),scatterpoints = 1, loc = 'lower left',fontsize =8)
 
 sm = plt.cm.ScalarMappable(norm=colors.Normalize(vmin=0.5, vmax=2.0),cmap=z_colors_map)
 sm._A = []
-smaxes = inset_axes(sp2, width=0.06, height=0.4, loc=3, bbox_to_anchor=(0.14, .1), bbox_transform=sp2.figure.transFigure)
+smaxes = inset_axes(sp2, width=0.06, height=0.4, loc=3, bbox_to_anchor=(.4, .1), bbox_transform=sp2.figure.transFigure)
 cbar = plt.colorbar(sm,cax=smaxes)
 cbar.ax.set_title('Z',fontsize=8)
 cbar.set_ticks([0.5,2.0])
 cbar.set_ticklabels([0.5,2.0])
 cbar.ax.tick_params(labelsize=8) 
 
-sp3 = plt.subplot(223)
+sp3 = plt.subplot(234)
 for i in range(0,len(SDSS_Data['z'])):
     shape = getShape(NII_Ha[i], OIII_Hb[i], S_Ha_Ratio[i], OI_Ratio[i])
     Temp_Color = getColor(OIII_5006[i], OIII_4363[i])
@@ -261,7 +264,7 @@ plt.plot(Cloudy_NII_Ha_transpose,Cloudy_S_Ratio_transpose, lw = '2',linestyle = 
 
 
 
-sp4 = plt.subplot(224)
+sp4 = plt.subplot(233)
 for i in range(0,len(SDSS_Data['z'])):
     shape = getShape(NII_Ha[i], OIII_Hb[i], S_Ha_Ratio[i], OI_Ratio[i])
     Temp_Color = getColor(OIII_5006[i], OIII_4363[i])
@@ -269,7 +272,7 @@ for i in range(0,len(SDSS_Data['z'])):
 plt.ylabel(r"log([NII] $\lambda$6584/[OII] $\lambda$3727)")
 plt.xlabel(r"log ([NII] $\lambda$6584/H$\alpha$)")
 plt.title("Metallicity")
-plt.xlim(-2.5,0.5)
+plt.xlim(-1.5,0.2)
 #plt.scatter(Cloudy_NII_Ha,Cloudy_NO_Ratio,c=Cloudy_Sim_Color, s = markersize, edgecolor ='none')
 sp4.set_color_cycle(grains_colors)
 plt.plot(Cloudy_NII_Ha_array,Cloudy_NO_Ratio_array, lw = '2')

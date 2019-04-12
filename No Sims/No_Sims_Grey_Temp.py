@@ -189,7 +189,7 @@ plt.xlim(-2.5,0.5)
 plt.ylim(-1,1.3)
 plt.ylabel(r"log([OIII] $\lambda$5007/H$\beta$)")
 plt.xlabel(r"log ([NII] $\lambda$6584/H$\alpha$)")
-plt.title("BPT Diagram")
+#plt.title("BPT Diagram")
 x=np.linspace(-1.5,0.3,50)
 y=((.61/(x-.47))+1.19)
 plt.plot(x,y,color=Low_Temp_Color)
@@ -208,10 +208,11 @@ for i in range(0,len(SDSS_Data['z'])):
 #print(counter)
 plt.ylabel(r"log([OIII] $\lambda$5007/4363)")
 plt.xlabel(r"log ([NII] $\lambda$6584/H$\alpha$)")
-plt.title("Temperature")
+#plt.title("Temperature")
 plt.ylim(0,3)
 plt.xlim(-2.5,0.5)
-plt.legend([plt.scatter([],[],color='0.75', s = markersize), plt.scatter([],[],color='0.5', s = markersize), plt.scatter([],[],color='0.25', s = markersize)], (r"T$_e$<1.17*10$^4$",r"1.17*10$^4$<T$_e$<1.54*10$^4$",r"T$_e$>1.54*10$^4$"),scatterpoints = 1, loc = 'lower left',fontsize =8)
+#plt.legend([plt.scatter([],[],color='0.75', s = markersize), plt.scatter([],[],color='0.5', s = markersize), plt.scatter([],[],color='0.25', s = markersize)], (r"T$_e$<1.17*10$^4$",r"1.17*10$^4$<T$_e$<1.54*10$^4$",r"T$_e$>1.54*10$^4$"),scatterpoints = 1, loc = 'lower left',fontsize =8)
+plt.legend([plt.scatter([],[],color='0.75', s = markersize), plt.scatter([],[],color='0.5', s = markersize), plt.scatter([],[],color='0.25', s = markersize)], (r"Low T$_e$",r"Mid T$_e$",r"High T$_e$"),scatterpoints = 1, loc = 'lower left',fontsize =8)
 
 
 
